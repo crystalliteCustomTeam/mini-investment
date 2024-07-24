@@ -1,29 +1,13 @@
 "use client"
-import { useEffect, useId, useState } from "react";
-import { usePathname } from "next/navigation";
-import Axios from "axios";
+import { useState } from "react";
 const Contact = () => {
-    const referenceID = useId();
-    const [ip, setIP] = useState("");
-    const getIPData = async () => {
-        const res = await Axios.get(
-            "https://geolocation-db.com/json/f2e84010-e1e9-11ed-b2f8-6b70106be3c8"
-        );
-        setIP(res.data);
-    };
-    useEffect(() => {
-        getIPData();
-    }, []);
-    // For Page
-    let page = usePathname();
     const [data, setData] = useState({
         name: "",
         phone: "",
         email: "",
         subject: "",
         message: "",
-        botchecker: null,
-        pageURL: page,
+        botchecker: null
     });
     const handleDataChange = (e) => {
         setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -60,22 +44,30 @@ const Contact = () => {
 
         const errors = formValidateHandle();
         setErrors(errors);
-
         if (Object.keys(errors).length === 0) {
             if (data.botchecker === null) {
                 let headersList = {
                     Accept: "*/*",
                     "Content-Type": "application/json",
                 };
-
                 let bodyContent = JSON.stringify(data);
                 let reqOptions = {
-                    url: "/api/email/",
                     method: "POST",
                     headers: headersList,
-                    data: bodyContent,
+                    body: bodyContent,
                 };
-                await Axios.request(reqOptions);
+                try {
+                    const response = await fetch("/api/email/", reqOptions);
+                    if (response.ok) {
+                        window.location.href = "/thank-you";
+                    } else {
+                        setFormStatus("Failed...");
+                        setIsDisabled(false);
+                    }
+                } catch (error) {
+                    setFormStatus("Failed...");
+                    setIsDisabled(false);
+                }
             } else {
                 setFormStatus("Failed...");
                 setIsDisabled(false);
@@ -83,39 +75,6 @@ const Contact = () => {
         } else {
             setFormStatus("Failed...");
             setIsDisabled(false);
-        }
-
-        if (Object.keys(errors).length === 0) {
-            if (data.botchecker === null) {
-                // For Date
-                let newDate = new Date();
-                let date = newDate.getDate();
-                let month = newDate.getMonth() + 1;
-                let year = newDate.getFullYear();
-                // For Time
-                let today = new Date();
-                let time =
-                    today.getHours() +
-                    ":" +
-                    today.getMinutes() +
-                    ":" +
-                    today.getSeconds();
-
-                let headersList = {
-                    Accept: "*/*",
-                    Authorization: "Bearer ke2br2ubssi4l8mxswjjxohtd37nzexy042l2eer",
-                    "Content-Type": "application/json",
-                };
-
-                let bodyContent = JSON.stringify({
-                    IP: `${ip.IPv4} - ${ip.country_name} - ${ip.city}`,
-                    Brand: "Mini Investment",
-                    Page: `${page}`,
-                    Date: `${month < 10 ? `0${month}` : `${month}`}-${date}-${year}`,
-                    Time: time,
-                    JSON: data,
-                });
-            }
         }
     };
     return (
@@ -131,7 +90,8 @@ const Contact = () => {
                         type="text"
                         name="name"
                         placeholder="Name"
-                        id={referenceID}
+                        id="name"
+                        value={data.name}
                         onChange={handleDataChange}
                         className="bg-[#262626] rounded-xl py-4 px-4 block w-full mb-4 text-white outline-none placeholder:text-[#8F8F8F] text-[15px] font-normal leading-tight focus-visible:outline-none focus-visible:outline-[#438EFF] focus-visible:outline-1 border border-[#69727d] focus-visible:border-transparent transition-all duration-500 ease-in-out"
                     />
@@ -147,7 +107,8 @@ const Contact = () => {
                         type="email"
                         name="email"
                         placeholder="Email"
-                        id={referenceID}
+                        id="email"
+                        value={data.email}
                         onChange={handleDataChange}
                         className="bg-[#262626] rounded-xl py-4 px-4 block w-full mb-4 text-white outline-none placeholder:text-[#8F8F8F] text-[15px] font-normal leading-tight focus-visible:outline-none focus-visible:outline-[#438EFF] focus-visible:outline-1 border border-[#69727d] focus-visible:border-transparent transition-all duration-500 ease-in-out"
                     />
@@ -165,7 +126,8 @@ const Contact = () => {
                         type="tel"
                         name="phone"
                         placeholder="Telephone Number"
-                        id={referenceID}
+                        id="phone"
+                        value={data.phone}
                         onChange={handleDataChange}
                         className="bg-[#262626] rounded-xl py-4 px-4 block w-full mb-4 text-white outline-none placeholder:text-[#8F8F8F] text-[15px] font-normal leading-tight focus-visible:outline-none focus-visible:outline-[#438EFF] focus-visible:outline-1 border border-[#69727d] focus-visible:border-transparent transition-all duration-500 ease-in-out"
                     />
@@ -178,10 +140,11 @@ const Contact = () => {
                 <div>
                     <input
                         autoComplete="off"
-                        type="tel"
+                        type="text"
                         name="subject"
                         placeholder="Subject"
-                        id={referenceID}
+                        id="subject"
+                        value={data.subject}
                         onChange={handleDataChange}
                         className="bg-[#262626] rounded-xl py-4 px-4 block w-full mb-4 text-white outline-none placeholder:text-[#8F8F8F] text-[15px] font-normal leading-tight focus-visible:outline-none focus-visible:outline-[#438EFF] focus-visible:outline-1 border border-[#69727d] focus-visible:border-transparent transition-all duration-500 ease-in-out"
                     />
@@ -193,10 +156,13 @@ const Contact = () => {
                 </div>
             </div>
             <textarea
+                autoComplete="off"
                 name="message"
-                id={referenceID}
+                id="message"
                 placeholder="Message"
-                className="bg-[#262626] rounded-xl py-4 px-4 block w-full mb-4 text-white outline-none placeholder:text-[#8F8F8F] text-[15px] font-normal leading-tight focus-visible:outline-none focus-visible:outline-[#438EFF] focus-visible:outline-1 border border-[#69727d] focus-visible:border-transparent transition-all duration-500 ease-in-out resize-none h-36" />
+                value={data.message}
+                onChange={handleDataChange}
+                className="bg-[#262626] rounded-xl py-4 px-4 block w-full mb-4 text-white outline-none placeholder:text-[#8F8F8F] text-[15px] font-normal leading-tight focus-visible:outline-none focus-visible:outline-[#438EFF] focus-visible:outline-1 border border-[#69727d] focus-visible:border-transparent transition-all duration-500 ease-in-out resize-none h-36"></textarea>
             <button className="bg-[#438EFF] __animatedPing block w-full text-white rounded-xl py-4 px-4 text-[15px] font-medium leading-tight" onClick={handleFormSubmit} disabled={isDisabled}>{formStatus}</button>
         </form>
     )

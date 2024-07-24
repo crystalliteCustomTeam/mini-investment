@@ -1,39 +1,16 @@
 "use client"
-import { Axios } from "axios";
-import { usePathname } from "next/navigation";
-import { useEffect, useId, useState } from "react";
+import { useState } from "react";
 const Footer = () => {
-    const referenceID = useId(); // Unique ID for the component
-    const [ip, setIP] = useState(""); // State to hold IP data
-
-    // Function to fetch IP data
-    const getIPData = async () => {
-        const res = await Axios.get(
-            "https://geolocation-db.com/json/f2e84010-e1e9-11ed-b2f8-6b70106be3c8"
-        );
-        setIP(res.data);
-    };
-
-    useEffect(() => {
-        getIPData(); // Fetch IP data on component mount
-    }, []);
-
-    // For Page
-    let page = usePathname(); // Get current page URL
     const [data, setData] = useState({
         email: "",
-        botchecker: null,
-        pageURL: page,
+        botchecker: null
     });
-
     const handleDataChange = (e) => {
         setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-
-    const [formStatus, setFormStatus] = useState("Send");
+    const [formStatus, setFormStatus] = useState("Submit");
     const [errors, setErrors] = useState({});
     const [isDisabled, setIsDisabled] = useState(false);
-
     const formValidateHandle = () => {
         let errors = {};
         // Email validation
@@ -43,13 +20,12 @@ const Footer = () => {
         }
         return errors;
     };
-
     const handleFormSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         setFormStatus("Processing...");
-        setIsDisabled(true); // Disable the form during submission
+        setIsDisabled(true);
 
-        const errors = formValidateHandle(); // Validate form data
+        const errors = formValidateHandle();
         setErrors(errors);
 
         if (Object.keys(errors).length === 0) {
@@ -61,61 +37,31 @@ const Footer = () => {
 
                 let bodyContent = JSON.stringify(data);
                 let reqOptions = {
-                    url: "/api/email/", // Your API endpoint
                     method: "POST",
                     headers: headersList,
-                    data: bodyContent,
+                    body: bodyContent,
                 };
 
-                // Send first request to send email
-                await Axios.request(reqOptions);
-
-                // Prepare for the second request
-                let newDate = new Date();
-                let date = newDate.getDate();
-                let month = newDate.getMonth() + 1;
-                let year = newDate.getFullYear();
-                // Get current time
-                let time =
-                    today.getHours() +
-                    ":" +
-                    today.getMinutes() +
-                    ":" +
-                    today.getSeconds();
-
-                // Prepare headers and body for the second request
-                headersList = {
-                    Accept: "*/*",
-                    Authorization: "Bearer ke2br2ubssi4l8mxswjjxohtd37nzexy042l2eer", // Replace with your actual token
-                    "Content-Type": "application/json",
-                };
-
-                bodyContent = JSON.stringify({
-                    IP: `${ip.IPv4} - ${ip.country_name} - ${ip.city}`, // Include IP data
-                    Brand: "Mini Investment",
-                    Page: page, // Current page URL
-                    Date: `${month < 10 ? `0${month}` : month}-${date < 10 ? `0${date}` : date}-${year}`, // Format date
-                    Time: time, // Current time
-                    JSON: data, // User data
-                });
-
-                // Send second request (the new API endpoint for logging)
-                await Axios.request({
-                    url: "/api/log/", // Update this URL to your actual API endpoint
-                    method: "POST",
-                    headers: headersList,
-                    data: bodyContent,
-                });
-
-                setFormStatus("Sent successfully!");
+                try {
+                    const response = await fetch("/api/email/", reqOptions);
+                    if (response.ok) {
+                        window.location.href = "/thank-you";
+                    } else {
+                        setFormStatus("Failed...");
+                        setIsDisabled(false);
+                    }
+                } catch (error) {
+                    setFormStatus("Failed...");
+                    setIsDisabled(false);
+                }
             } else {
-                setFormStatus("Failed: Bot detected.");
+                setFormStatus("Failed...");
+                setIsDisabled(false);
             }
         } else {
-            setFormStatus("Validation failed. Please correct the errors.");
+            setFormStatus("Failed...");
+            setIsDisabled(false);
         }
-
-        setIsDisabled(false); // Re-enable the form after submission
     };
     return (
         <footer>
@@ -140,13 +86,14 @@ const Footer = () => {
                                 autoComplete="off"
                                 spellCheck="false">
                                 <div className="border border-[#484848] flex items-center">
-                                    <div className="basis-[75%]">
+                                    <div className="basis-[70%]">
                                         <input
                                             autoComplete="off"
                                             type="email"
                                             name="email"
                                             placeholder="Email"
-                                            id={referenceID}
+                                            id="email"
+                                            value={data.email}
                                             onChange={handleDataChange}
                                             className="bg-[#262626] py-3 px-4 block w-full text-white outline-none placeholder:text-[#8F8F8F] text-[15px] font-normal leading-tight focus-visible:outline-none transition-all duration-500 ease-in-out"
                                         />
@@ -156,7 +103,7 @@ const Footer = () => {
                                             </span>
                                         )}
                                     </div>
-                                    <button className="basis-[25%] __animatedPing bg-[#438EFF] block w-full text-white py-3 px-4 text-[15px] font-medium leading-tight" onClick={handleFormSubmit} disabled={isDisabled}>{formStatus}</button>
+                                    <button className="basis-[30%] __animatedPing bg-[#438EFF] block w-full text-white py-3 px-4 text-[15px] font-medium leading-tight" onClick={handleFormSubmit} disabled={isDisabled}>{formStatus}</button>
                                 </div>
                             </form>
                         </div>

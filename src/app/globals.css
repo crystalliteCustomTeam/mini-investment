@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* For Smooth Scroll */
+@media (prefers-reduced-motion: no-preference) {
+   :root {
+      scroll-behavior: smooth;
+   }
+}
+
+/* For Smooth Scroll */
+
+/* Scroll Bar Css */
+
+/* width */
+::-webkit-scrollbar {
+   width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+   background: #131313cb;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+   background: #438EFF;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+   background: #2f7ff8;
+}
+
+/* Scroll Bar Css */
+
+/* Animated CTA Css */
+.__animatedPing {
+   overflow: hidden;
+   position: relative;
+}
+
+.__animatedPing:before {
+   position: absolute;
+   content: '';
+   display: inline-block;
+   top: -180px;
+   left: 0;
+   width: 30px;
+   height: 100%;
+   background-color: #fff;
+   animation: ping 3s ease-in-out infinite;
+}
+
+.__animatedPing:active {
+   box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .3),
+      -4px -4px 6px 0 rgba(116, 125, 136, .2),
+      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+      inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
+}
+
+@keyframes ping {
+   0% {
+      -webkit-transform: scale(0) rotate(45deg);
+      opacity: 0;
+   }
+
+   80% {
+      -webkit-transform: scale(0) rotate(45deg);
+      opacity: 0.5;
+   }
+
+   81% {
+      -webkit-transform: scale(4) rotate(45deg);
+      opacity: 1;
+   }
+
+   100% {
+      -webkit-transform: scale(50) rotate(45deg);
+      opacity: 0;
+   }
+}
+
+@-webkit-keyframes ping {
+   0% {
+      -webkit-transform: scale(0) rotate(45deg);
+      opacity: 0;
+   }
+
+   80% {
+      -webkit-transform: scale(0) rotate(45deg);
+      opacity: 0.5;
+   }
+
+   81% {
+      -webkit-transform: scale(4) rotate(45deg);
+      opacity: 1;
+   }
+
+   100% {
+      -webkit-transform: scale(50) rotate(45deg);
+      opacity: 0;
+   }
+}
+
+/* Animated CTA Css */
+
+/* 3D Card Effects */
+@layer utilities {
+   .bg-gradient-radial {
+     background-image: radial-gradient(circle at center, var(--tw-gradient-stops));
+   }
+}
+/* 3D Card Effects */

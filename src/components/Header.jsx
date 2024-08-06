@@ -5,8 +5,8 @@ import Logo from "media/logo.png"
 const Header = () => {
     const [openIndex, setOpenIndex] = useState(false);
     return (
-        <header className="absolute top-0 bottom-0 left-0 right-0 w-full h-max">
-            <div className="bg-[#0000007e] bg-opacity-40 py-4 relative z-10">
+        <header className="md:absolute relative md:top-0 md:bottom-0 md:left-0 md:right-0 w-full h-max">
+            <div className="md:bg-[#0000007e] bg-black md:bg-opacity-40 py-4 relative z-10">
                 <div className="container">
                     <div className="grid grid-cols-12 items-center text-white">
                         <div className="xl:col-span-5 lg:col-span-4 col-span-3">
@@ -15,15 +15,12 @@ const Header = () => {
                             </a>
                         </div>
                         <div className="xl:col-span-7 lg:col-span-8 col-span-9">
-                            <button className={`${!openIndex ? "block" : "hidden"} md:hidden w-10 ms-auto`} onClick={() => setOpenIndex((prev) => (!prev))}>
-                                <span className="block w-full rounded-full h-1 bg-white"></span>
-                                <span className="block w-full rounded-full h-1 bg-white my-2"></span>
-                                <span className="block w-full rounded-full h-1 bg-white"></span>
+                            <button className="md:hidden block w-10 ms-auto" onClick={() => setOpenIndex((prev) => (!prev))}>
+                                <span className={`block w-full transition-all duration-500 ease-in-out rounded-full h-1 bg-white ${!openIndex ? "rotate-0" : "-rotate-45 -mb-2 h-2"}`}></span>
+                                <span className={`block w-full transition-all duration-500 ease-in-out rounded-full h-1 bg-white my-2 ${!openIndex ? "block" : "hidden"}`}></span>
+                                <span className={`block w-full transition-all duration-500 ease-in-out rounded-full h-1 bg-white ${!openIndex ? "rotate-0" : "rotate-45 h-2"}`}></span>
                             </button>
-                            <div className={`md:flex md:relative absolute ${!openIndex ? "-translate-x-full" : "-translate-x-0"} md:translate-x-0 md:bg-transparent bg-black left-0 md:w-full w-[75%] md:h-auto md:p-0 py-10 px-10 h-screen top-0 lg:gap-x-10 md:gap-x-5 md:items-center md:justify-end transition-all ease-in-out duration-500`}>
-                                <button className={`${!openIndex ? "hidden" : "block"} md:hidden block w-10 ms-auto`} onClick={() => setOpenIndex((prev) => (!prev))}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="35" height="35" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" /></svg>
-                                </button>
+                            <div className={`md:flex md:relative absolute ${!openIndex ? "-translate-x-full" : "-translate-x-0"} md:translate-x-0 md:bg-transparent bg-black left-0 md:w-full sm:w-[75%] w-[85%] md:h-auto md:p-0 py-10 px-10 h-screen top-0 lg:gap-x-10 md:gap-x-5 md:items-center md:justify-end transition-all ease-in-out duration-500`}>
                                 {[
                                     ["#", "Home"],
                                     ["#services", "Services"],

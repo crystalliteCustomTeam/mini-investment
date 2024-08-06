@@ -69,11 +69,11 @@ const Footer = () => {
                 <div className="container">
                     <div className="grid grid-cols-12 lg:gap-x-10 gap-5 border-y border-white pt-5 pb-[50px]">
                         <div className="xl:col-span-5 lg:col-span-4 sm:col-span-6 col-span-12">
-                            <h4 className="text-[30px] leading-normal font-semibold mb-3">About Company</h4>
+                            <h4 className="md:text-[30px] text-xl leading-normal font-semibold mb-3">About Company</h4>
                             <p className="text-[#8F8F8F] text-sm">We can manage your infrastructure affordably and seamlessly by applying our award-winning IT solutions. So you will get Customized IT Solutions.</p>
                         </div>
                         <div className="xl:col-span-3 lg:col-span-4 sm:col-span-6 col-span-12">
-                            <h4 className="text-[30px] leading-normal font-semibold mb-3">Office Timings</h4>
+                            <h4 className="md:text-[30px] text-xl leading-normal font-semibold mb-3">Office Timings</h4>
                             <ul className="text-[#8F8F8F] text-sm">
                                 <li>Office Hours</li>
                                 <li>Mon-Fri</li>
@@ -81,7 +81,7 @@ const Footer = () => {
                             </ul>
                         </div>
                         <div className="lg:col-span-4 sm:col-span-6 col-span-12">
-                            <h4 className="text-[30px] leading-normal font-semibold mb-3">News Letter</h4>
+                            <h4 className="md:text-[30px] text-xl leading-normal font-semibold mb-3">News Letter</h4>
                             <form
                                 autoComplete="off"
                                 spellCheck="false">

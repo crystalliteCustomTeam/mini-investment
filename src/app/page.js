@@ -69,7 +69,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section>
+      {/* <section>
         <div className="bg-[#231F20] md:py-[60px] py-[40px]">
           <div className="container">
             <div className="text-white text-center">
@@ -96,7 +96,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <section id="about-us">
         <div className="relative z-10 bg-[#131313] xl:py-[100px] lg:py-[80px] md:py-[60px] py-[40px]">
           <div className="container">

@@ -10,7 +10,7 @@ const Header = () => {
                 <div className="container">
                     <div className="grid grid-cols-12 items-center text-white">
                         <div className="xl:col-span-5 lg:col-span-4 col-span-3">
-                            <a href="#">
+                            <a href="/">
                                 <Image src={Logo} alt="logo-mini-inverstment" />
                             </a>
                         </div>

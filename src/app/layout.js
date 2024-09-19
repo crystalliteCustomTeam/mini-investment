@@ -3,17 +3,14 @@ import "./globals.css";
 import { Footer, Header } from "../components/index";
 
 const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata = {
-  title: {
-    default: "Mini-Investment",
-    template: 'Mini-Investment'
-  },
+  title: "Mini-Investment",
   other: {
-    'google-site-verification': 'ujrRyYLmMXYg62fF_So99XjDyDCQZZ1VE_6n5ywDF38',
+    "google-site-verification": "ujrRyYLmMXYg62fF_So99XjDyDCQZZ1VE_6n5ywDF38",
   },
 };
 

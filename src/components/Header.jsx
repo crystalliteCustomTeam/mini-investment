@@ -1,9 +1,16 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "media/logo.png"
 const Header = () => {
     const [openIndex, setOpenIndex] = useState(false);
+    useEffect(() => {
+        if (openIndex) {
+          document.body.classList.add('overflow-hidden');
+        } else {
+          document.body.classList.remove('overflow-hidden');
+        }
+      }, [openIndex]);
     return (
         <header className="md:absolute relative md:top-0 md:bottom-0 md:left-0 md:right-0 w-full h-max">
             <div className="md:bg-[#0000007e] bg-black md:bg-opacity-40 py-4 relative z-10">
@@ -27,7 +34,7 @@ const Header = () => {
                                     ["#about-us", "About us"],
                                     ["#contact", "Contact us"]
                                 ].map(([link, text], i) => (
-                                    <a key={i} href={link} className="relative w-max overflow-hidden hover:overflow-visible group block md:mb-0 mb-5">
+                                    <a key={i} href={link} onClick={() => setOpenIndex(false)} className="relative w-max overflow-hidden hover:overflow-visible group block md:mb-0 mb-5">
                                         <span>{text}</span>
                                         <span className="block w-0 rounded-full transition-all ease-in-out duration-500 absolute group-hover:w-full group-hover:translate-x-0 group-hover:translate-y-0 translate-y-4 translate-x-28 h-[5px] bg-[#438EFF]"></span>
                                     </a>
